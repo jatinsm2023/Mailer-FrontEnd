@@ -37,8 +37,8 @@ function Sender() {
       return;
     }
     
-    // now send file,subject, message in the backend use the fetch api https://mailer-backend-5bgy.onrender.com/api//product/getbill
-    const response = await fetch("https://mailer-backend-5bgy.onrender.com/api//product/getbill", {
+    // now send file,subject, message in the backend use the fetch api https://mailer-backend-h8rh.onrender.com/api//product/getbill
+    const response = await fetch("https://mailer-backend-h8rh.onrender.com/api//product/getbill", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
