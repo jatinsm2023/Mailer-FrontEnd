@@ -62,7 +62,7 @@ function Sender() {
   
     // https://mailer-backend-h8rh.onrender.com
     // now send file,subject, message in the backend use the fetch api https://mailer-backend-h8rh.onrender.com/api//product/getbill
-    toast.message("Wait, We are sending the mails..")
+    toast.success("Wait, We are sending the mails..")
     const response = await fetch("https://mailer-backend-h8rh.onrender.com/api//product/getbill", {
       method: "POST",
       body: formData,
