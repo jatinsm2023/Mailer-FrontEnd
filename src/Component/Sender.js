@@ -31,6 +31,7 @@ function Sender() {
     }
 
     // take subject from id subject
+    const name = document.getElementById("name").value;
     const subject = document.getElementById("subject").value;
     const EMAIL = document.getElementById("email").value;
     const EMAIL_APP_PASSWORD = document.getElementById("apppassword").value;
@@ -38,6 +39,7 @@ function Sender() {
     const message = document.getElementById("message").value;
 
     if (
+      !name ||
       !subject ||
       !EMAIL ||
       !EMAIL_APP_PASSWORD ||
@@ -56,7 +58,7 @@ function Sender() {
     }
     setisSendingEmails(true);
     setRemainingTime(emails.length * 10);
-    // setInterval 
+    // setInterval
     setInterval(() => {
       setRemainingTime((prev) => prev - 1);
     }, 1000);
@@ -67,6 +69,7 @@ function Sender() {
       formData.append(`file${index}`, file);
     });
     // Append other data to the FormData instance
+    formData.append("Name",name);
     formData.append("EMAIL", EMAIL);
     formData.append("EMAIL_APP_PASSWORD", EMAIL_APP_PASSWORD);
     formData.append("RECIEVER_MAILS", JSON.stringify(emails));
@@ -117,7 +120,6 @@ function Sender() {
           ) : (
             ""
           )}
-          
         </div>
         <form
           action="#"
@@ -126,6 +128,23 @@ function Sender() {
           onSubmit={(e) => e.preventDefault()}
         >
           <div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                Sender Full Name
+              </label>
+              <div className="mt-2.5">
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  autoComplete="name"
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
             <div className="sm:col-span-2">
               <label
                 htmlFor="email"
