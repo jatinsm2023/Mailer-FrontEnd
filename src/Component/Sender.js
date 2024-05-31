@@ -186,7 +186,7 @@ function Sender() {
                 htmlFor="message"
                 className="block text-sm font-semibold leading-6 text-gray-900"
               >
-                Message
+                Mail Body
               </label>
               <div className="mt-2.5">
                 <textarea
