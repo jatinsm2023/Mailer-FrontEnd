@@ -37,11 +37,11 @@ The Mail Sender Tool is a web application designed to facilitate the sending of 
 
 3. **CSV Format**
 - The CSV file should contain this Format
-    example1@gmail.com
-    example2@gmail.com
-    example3@gmail.com
-    example4@gmail.com
-    example5@gmail.com
+   - example1@gmail.com
+   - example2@gmail.com
+   - example3@gmail.com
+   - example4@gmail.com
+   - example5@gmail.com
 
     
 4. **Compose Email**
