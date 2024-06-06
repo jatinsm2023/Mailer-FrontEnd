@@ -19,7 +19,12 @@ The Mail Sender Tool is a web application designed to facilitate the sending of 
 - **Backend:** Node.js, Express, Nodemailer
 - **Notifications:** Toaster
 
+## Backend Repository
+
+- Find Backend code repository for this tool here - https://github.com/jatinsm2023/Mailer-Backend
+
 ## Usage
+
 1. **Open the Application**
 - Open your web browser and navigate to https://mailer-rv8x.onrender.com/.
 
@@ -30,10 +35,19 @@ The Mail Sender Tool is a web application designed to facilitate the sending of 
 - Upload CSV File
 - The CSV file should contain recipient email addresses in the first column.
 
-3. **Compose Email**
+3. **CSV Format**
+- The CSV file should contain this Format
+    example1@gmail.com
+    example2@gmail.com
+    example3@gmail.com
+    example4@gmail.com
+    example5@gmail.com
+
+    
+4. **Compose Email**
 - Subject: Enter the email subject.
 - Email Body: Enter the content of the email.
 - Attachments: Attach any files you wish to send.
 
-4. **Send Emails**
+5. **Send Emails**
 - Click the "Send" button to start sending emails. Each email will be sent separately at 10-second intervals.
