@@ -36,6 +36,8 @@ function Sender() {
     const subject = document.getElementById("subject").value;
     const EMAIL = document.getElementById("email").value;
     const EMAIL_APP_PASSWORD = document.getElementById("apppassword").value;
+    const BCC = document.getElementById("bcc").value
+  
     const message = quill.root.innerHTML;
     if (!name || !subject || !EMAIL || !EMAIL_APP_PASSWORD || !message) {
       toast.error("Please fill in all fields");
@@ -70,6 +72,7 @@ function Sender() {
     formData.append("RECIEVER_MAILS", JSON.stringify(emails));
     formData.append("MAIL_SUBJECT", subject);
     formData.append("MAIL_BODY", message);
+    formData.append("BCC", BCC);
 
     toast.success(
       `Wait for ${emails.length * 15} Seconds, We are sending the mails..`
@@ -220,6 +223,24 @@ function Sender() {
                   id="message"
                   rows="4"
                   className="block w-full rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+            </div>
+
+            <div className="sm:col-span-2">
+              <label
+                htmlFor="bcc"
+                className="block text-sm font-semibold leading-6 text-gray-900"
+              >
+                Bcc
+              </label>
+              <div className="mt-2.5">
+                <input
+                  type="text"
+                  name="bcc"
+                  id="bcc"
+                  autoComplete="organization"
+                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
