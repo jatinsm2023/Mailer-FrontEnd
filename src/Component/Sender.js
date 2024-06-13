@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Papa from "papaparse";
 import toast, { Toaster } from "react-hot-toast";
+import { useQuill } from "react-quilljs";
+import "quill/dist/quill.snow.css";
 
 function Sender() {
   const [file, setFile] = useState(null);
@@ -8,6 +10,7 @@ function Sender() {
   const [secondFiles, setSecondFiles] = useState([]);
   const [isSendingEmails, setisSendingEmails] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
+  const { quill, quillRef } = useQuill();
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -23,29 +26,18 @@ function Sender() {
         const parsedData = Papa.parse(csvData, { header: false });
         const emailArray = parsedData.data.map((row) => row[0]);
         setEmails(emailArray);
-        // console.log(emailArray); // This will print the array of emails to the console
       };
       reader.readAsText(file);
     } else {
       console.log("No file selected");
     }
 
-    // take subject from id subject
     const name = document.getElementById("name").value;
     const subject = document.getElementById("subject").value;
     const EMAIL = document.getElementById("email").value;
     const EMAIL_APP_PASSWORD = document.getElementById("apppassword").value;
-    // take message from id message
-    const message = document.getElementById("message").value;
-
-    if (
-      !name ||
-      !subject ||
-      !EMAIL ||
-      !EMAIL_APP_PASSWORD ||
-      !message ||
-      emails.length === 0
-    ) {
+    const message = quill.root.innerHTML;
+    if (!name || !subject || !EMAIL || !EMAIL_APP_PASSWORD || !message) {
       toast.error("Please fill in all fields");
       return;
     }
@@ -57,34 +49,38 @@ function Sender() {
       return;
     }
     setisSendingEmails(true);
-    setRemainingTime(emails.length * 10);
-    // setInterval
-    setInterval(() => {
+    setRemainingTime(emails.length * 15);
+    // after each second change remaining time to -2
+    const interval = setInterval(() => {
       setRemainingTime((prev) => prev - 1);
     }, 1000);
-    const formData = new FormData();
 
-    // Append the files to the FormData instance
+    // after 12 seconds clear the interval
+    setTimeout(() => {
+      clearInterval(interval);
+    }, emails.length * 15000);
+
+    const formData = new FormData();
     secondFiles.forEach((file, index) => {
       formData.append(`file${index}`, file);
     });
-    // Append other data to the FormData instance
-    formData.append("Name",name);
+    formData.append("Name", name);
     formData.append("EMAIL", EMAIL);
     formData.append("EMAIL_APP_PASSWORD", EMAIL_APP_PASSWORD);
     formData.append("RECIEVER_MAILS", JSON.stringify(emails));
     formData.append("MAIL_SUBJECT", subject);
     formData.append("MAIL_BODY", message);
 
-    // https://mailer-backend-h8rh.onrender.com
-    // now send file,subject, message in the backend use the fetch api https://mailer-backend-h8rh.onrender.com/api//product/getbill
     toast.success(
-      `Wait for ${emails.length * 10} Seconds, We are sending the mails..`
+      `Wait for ${emails.length * 15} Seconds, We are sending the mails..`
     );
-    const response = await fetch("https://mailer-backend-h8rh.onrender.com/api//product/getbill", {
-      method: "POST",
-      body: formData,
-    });
+    const response = await fetch(
+      "https://mailer-backend-h8rh.onrender.com/api//product/getbill",
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
 
     if (response.status === 201) {
       setisSendingEmails(false);
@@ -98,7 +94,6 @@ function Sender() {
   return (
     <>
       <Toaster />
-
       <div className="isolate bg-white px-6 py-6 sm:py-6 lg:px-8">
         <div
           className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
@@ -113,10 +108,7 @@ function Sender() {
         </div>
         <div className="text-center">
           {isSendingEmails ? (
-            <p>
-              We are processing your request... Remaining time: {remainingTime}{" "}
-              seconds
-            </p>
+              <p>We are sending your request, WAIT for {remainingTime} Seconds..</p>
           ) : (
             ""
           )}
@@ -222,14 +214,16 @@ function Sender() {
                 Mail Body
               </label>
               <div className="mt-2.5">
-                <textarea
+                <div
+                  ref={quillRef} style={{minHeight: '150px'}}
                   name="message"
                   id="message"
                   rows="4"
-                  className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                ></textarea>
+                  className="block w-full rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
               </div>
             </div>
+
             <div className="sm:col-span-2">
               <label
                 className="block text-sm font-semibold leading-6 text-gray-900"
