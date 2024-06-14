@@ -91,6 +91,7 @@ function Sender() {
     } else {
       setisSendingEmails(true);
       toast.error("Some Error Occured");
+      setisSendingEmails(false);
     }
   };
 
