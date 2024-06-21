@@ -44,14 +44,14 @@ function Sender() {
       return;
     }
 
-    if (emails.length > 100 || emails.length <= 0) {
+    if (emails.length <= 0) {
       toast.error(
         "Number of Reciever mails should be less than 100 or more than 0"
       );
       return;
     }
     setisSendingEmails(true);
-    setRemainingTime(emails.length * 15);
+    setRemainingTime(emails.length * 3);
     // after each second change remaining time to -2
     const interval = setInterval(() => {
       setRemainingTime((prev) => prev - 1);
@@ -60,7 +60,7 @@ function Sender() {
     // after 12 seconds clear the interval
     setTimeout(() => {
       clearInterval(interval);
-    }, emails.length * 15000);
+    }, emails.length * 3000);
 
     const formData = new FormData();
     secondFiles.forEach((file, index) => {
@@ -75,7 +75,7 @@ function Sender() {
     formData.append("BCC", BCC);
 
     toast.success(
-      `Wait for ${emails.length * 15} Seconds, We are sending the mails..`
+      `Wait for ${emails.length * 3} Seconds, We are sending the mails..`
     );
     const response = await fetch(
       "https://mailer-backend-h8rh.onrender.com/api//product/getbill",
